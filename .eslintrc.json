@@ -22,6 +22,7 @@
     ],
     "rules": {
         "linebreak-style": "off",
+        "no-underscore-dangle": "off",
         "react/forbid-prop-types": "off",
         "react/function-component-definition": "off",
         "react/jsx-one-expression-per-line": "off",

@@ -1,9 +1,9 @@
-import { Outlet } from 'react-router-dom';
+import { useLocation, Outlet } from 'react-router-dom';
 
 // Package Components
 import Container from '@mui/material/Container';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
 
 // Global Components
@@ -11,6 +11,8 @@ import NavBar from '../NavBar';
 import Footer from '../Footer';
 
 const Layout = () => {
+  const location = useLocation();
+
   const navigations = [
     {
       name: 'List',
@@ -19,28 +21,33 @@ const Layout = () => {
       icon: <ListAltIcon />,
     },
     {
-      name: 'Setting',
-      path: '/setting',
-      external: false,
-      icon: <SettingsIcon />,
-    },
-    {
       name: 'About Author',
       path: 'https://yusril-adr.github.io',
       external: true,
       icon: <InfoIcon />,
     },
+    {
+      name: 'Sign Out',
+      path: '/sign-out',
+      external: false,
+      icon: <LogoutIcon />,
+    },
   ];
+
+  const showNavigations = location.pathname !== '/sign-in' && location.pathname !== '/sign-up';
 
   return (
     <>
-      <NavBar navigationList={navigations} />
+      <NavBar navigationList={navigations} showNavigations={showNavigations} />
 
       <Container
         component="main"
         maxWidth="md"
         sx={{
-          minHeight: 'calc(100vh - 64px)',
+          minHeight: {
+            xs: 'calc(100vh - 160px)',
+            sm: 'calc(100vh - 176px)',
+          },
         }}
       >
         <Outlet />

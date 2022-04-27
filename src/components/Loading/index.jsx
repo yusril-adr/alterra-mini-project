@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 // Assets
-import loadingImg from '../../../images/loading.svg';
+import loadingImg from '../../images/loading.svg';
 import styles from './style.module.css';
 
 const Loading = ({ title } = {}) => (

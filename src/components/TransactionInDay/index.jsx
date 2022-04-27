@@ -31,7 +31,7 @@ const TransactionInDay = () => (
 
     <Divider />
 
-    <Link to="/">
+    <Link to="/transaction/:id">
       <Box component="span" sx={{ display: 'flex', alignItems: 'center', marginTop: '.75rem' }}>
         <Box
           sx={{
@@ -58,7 +58,7 @@ const TransactionInDay = () => (
       </Box>
     </Link>
 
-    <Link to="/">
+    <Link to="/transaction/:id">
       <Box component="span" sx={{ display: 'flex', alignItems: 'center', marginTop: '.75rem' }}>
         <Box
           sx={{

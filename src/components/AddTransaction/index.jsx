@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import moment from 'moment';
 
-// Package Components
+// MUI Components
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -20,7 +20,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 // Configuration
-import CONFIG from '../../../../global/CONFIG';
+import CONFIG from '../../global/CONFIG';
 
 // Exceptions
 // import ClientError from '../../../exceptions/ClientError';
@@ -50,8 +50,9 @@ const AddTransaction = () => {
     setInputsValue(newInputsValue);
   };
 
-  const submitDialog = () => {
+  const submitHandler = (event) => {
     try {
+      event.preventDefault();
       setInputsValue(defaultInputsValue);
       setAlertMessage(null);
       toggleDialog();
@@ -87,87 +88,93 @@ const AddTransaction = () => {
       </Container>
 
       <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle>New Transaction</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="title"
-            label="Title"
-            name="title"
-            type="text"
-            fullWidth
-            variant="standard"
-            inputProps={{ maxlength: CONFIG.TRANSACTION_TITLE_MAX_LENGTH }}
-            value={inputsValue.title}
-            onChange={onChangeHandler}
-          />
+        <DialogTitle sx={{ pb: 0 }}>New Transaction</DialogTitle>
 
-          <TextField
-            required
-            margin="dense"
-            id="credit"
-            label="Credit"
-            name="credit"
-            type="number"
-            fullWidth
-            variant="standard"
-            inputProps={{
-              min: CONFIG.TRANSACTION_CREDIT_MIN,
-              max: CONFIG.TRANSACTION_CREDIT_MAX,
-            }}
-            value={inputsValue.credit}
-            onChange={onChangeHandler}
-          />
-
-          <TextField
-            required
-            margin="dense"
-            id="date"
-            label="Date"
-            name="date"
-            type="date"
-            fullWidth
-            variant="standard"
-            value={inputsValue.date}
-            onChange={onChangeHandler}
-          />
-
-          <FormControl fullWidth sx={{ marginTop: '1rem' }}>
-            <InputLabel id="transaction-type">Type</InputLabel>
-            <Select
+        <form onSubmit={submitHandler}>
+          <DialogContent sx={{ pt: 0 }}>
+            <TextField
+              autoFocus
               required
-              labelId="transaction-type"
-              id="type"
-              label="Type"
-              name="type"
-              value={inputsValue.type}
+              margin="dense"
+              id="title"
+              label="Title"
+              name="title"
+              type="text"
+              fullWidth
+              variant="standard"
+              inputProps={{ maxLength: CONFIG.TRANSACTION_TITLE_MAX_LENGTH }}
+              value={inputsValue.title}
               onChange={onChangeHandler}
-            >
-              <MenuItem value="Income">Income</MenuItem>
-              <MenuItem value="Outcome">Outcome</MenuItem>
-            </Select>
-          </FormControl>
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="credit"
+              label="Credit"
+              name="credit"
+              type="number"
+              fullWidth
+              variant="standard"
+              inputProps={{
+                min: CONFIG.TRANSACTION_CREDIT_MIN,
+                max: CONFIG.TRANSACTION_CREDIT_MAX,
+              }}
+              value={inputsValue.credit}
+              onChange={onChangeHandler}
+            />
+
+            <TextField
+              required
+              margin="dense"
+              id="date"
+              label="Date"
+              name="date"
+              type="date"
+              fullWidth
+              variant="standard"
+              value={inputsValue.date}
+              onChange={onChangeHandler}
+            />
+
+            <FormControl fullWidth sx={{ marginTop: '1rem' }}>
+              <InputLabel id="transaction-type">Type</InputLabel>
+              <Select
+                required
+                labelId="transaction-type"
+                id="type"
+                label="Type"
+                name="type"
+                value={inputsValue.type}
+                onChange={onChangeHandler}
+              >
+                <MenuItem value="Income">Income</MenuItem>
+                <MenuItem value="Outcome">Outcome</MenuItem>
+              </Select>
+            </FormControl>
+          </DialogContent>
 
           {alertMessage && (
             <DialogContentText>
               <Alert severity="error">{alertMessage}</Alert>
             </DialogContentText>
           )}
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setInputsValue(defaultInputsValue);
-              setAlertMessage(null);
-              toggleDialog();
-            }}
-          >
-            Cancel
-          </Button>
-          <Button onClick={submitDialog}>Add</Button>
-        </DialogActions>
+
+          <DialogActions>
+            <Button
+              type="button"
+              onClick={() => {
+                setInputsValue(defaultInputsValue);
+                setAlertMessage(null);
+                toggleDialog();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Add</Button>
+          </DialogActions>
+        </form>
+
       </Dialog>
     </Box>
   );

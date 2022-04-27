@@ -1,8 +1,12 @@
+import { useLocation } from 'react-router-dom';
+
 // MUI Components
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const Footer = () => {
+  const location = useLocation();
+
   const year = new Date().getFullYear();
 
   return (
@@ -12,7 +16,7 @@ const Footer = () => {
         display: 'flex',
         justifyContent: 'center',
         padding: {
-          xs: '2rem 0 5rem 0',
+          xs: location.pathname === '/' ? '2rem 0 5rem 0' : '2rem 0',
           sm: '2rem 0',
         },
       }}

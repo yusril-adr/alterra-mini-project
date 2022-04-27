@@ -19,10 +19,10 @@ import ListItemText from '@mui/material/ListItemText';
 import { blue, grey } from '@mui/material/colors';
 
 // Global Components
-import logo from '../../../images/loading.svg';
+import logo from '../../images/loading.svg';
 import NavLink from '../NavLink';
 
-const NavBar = ({ title, navigationList }) => {
+const NavBar = ({ title, navigationList, showNavigations }) => {
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (event) => {
@@ -38,7 +38,7 @@ const NavBar = ({ title, navigationList }) => {
       <AppBar position="static" sx={{ bgcolor: 'primary' }}>
         <Container maxWidth="md">
           <Toolbar disableGutters>
-            <Box sx={{ display: 'flex', mr: '1rem' }}>
+            <Box sx={{ display: showNavigations ? 'flex' : 'none', mr: '1rem' }}>
               <IconButton
                 size="large"
                 aria-label="Toggle Menu"
@@ -120,10 +120,12 @@ const NavBar = ({ title, navigationList }) => {
 NavBar.propTypes = {
   title: PropTypes.string,
   navigationList: PropTypes.array.isRequired,
+  showNavigations: PropTypes.bool,
 };
 
 NavBar.defaultProps = {
   title: 'Wager',
+  showNavigations: true,
 };
 
 export default NavBar;
