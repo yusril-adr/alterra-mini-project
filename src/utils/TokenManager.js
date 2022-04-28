@@ -19,7 +19,7 @@ const TokenManager = {
   verifyToken(token) {
     const decoded = decode(token);
     const result = JSON.parse(decoded);
-    if (result.expired < +new Date()) throw new AuthenticationError('Token is Expired.');
+    if (result.expired < +new Date()) throw new AuthenticationError('Login Session is Expired.');
     delete result.expired;
     return result;
   },

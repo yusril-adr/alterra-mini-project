@@ -23,7 +23,7 @@ import CONFIG from '../../global/CONFIG';
 
 const defaultInputsValue = {
   title: '',
-  credit: 0,
+  credit: '',
   date: moment().format('YYYY-MM-DD'),
   type: 'Income',
 };
@@ -87,7 +87,6 @@ const TransactionDetail = () => {
               type="text"
               fullWidth
               variant="standard"
-              inputProps={{ maxLength: CONFIG.TRANSACTION_TITLE_MAX_LENGTH }}
               value={inputsValue.title}
               onChange={onChangeHandler}
             />

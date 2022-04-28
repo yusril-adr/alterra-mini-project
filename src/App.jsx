@@ -31,14 +31,14 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={user ? <Home /> : <Navigate to="/sign-in" replace />} />
+      <Route path="/" element={<Layout user={user} />}>
+        <Route index element={user ? <Home user={user} /> : <Navigate to="/sign-in" replace />} />
 
         {user && (
           <>
             <Route path="transaction">
               <Route index element={<Navigate to="/" replace />} />
-              <Route path=":transactionId" element={<TransactionDetail />} />
+              <Route path=":transactionId" element={<TransactionDetail user={user} />} />
             </Route>
 
             <Route path="sign-out" element={<SignOut />} />

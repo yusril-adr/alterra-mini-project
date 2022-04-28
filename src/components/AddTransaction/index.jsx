@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import NumberFormat from 'react-number-format';
+import { useMutation } from '@apollo/client';
 import moment from 'moment';
 
 // MUI Components
@@ -11,23 +13,29 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Alert from '@mui/material/Alert';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-// Configuration
-import CONFIG from '../../global/CONFIG';
+// Global Components
+import Loading from '../Loading';
+import Alert from '../Alert';
 
-// Exceptions
-// import ClientError from '../../../exceptions/ClientError';
+// GraphQL Queries
+import Mutation from '../../services/apollo/transactions/Mutation';
+
+// Utils
+// import UserHelper from '../../utils/UserHelper';
+import ErrorHandler from '../../utils/ErrorHandler';
+import UserHelper from '../../utils/UserHelper';
+import TransactionHelper from '../../utils/TransactionHelper';
+import InputValidator from '../../utils/InputValidator';
 
 const defaultInputsValue = {
   title: '',
-  credit: 0,
+  credit: '',
   date: moment().format('YYYY-MM-DD'),
   type: 'Income',
 };
@@ -41,6 +49,19 @@ const AddTransaction = () => {
     setOpen(!open);
   };
 
+  const [createTransaction, {
+    loading: createTransactionLoading,
+  }] = useMutation(Mutation.CreateTransaction, {
+    onCompleted: async () => {
+      setInputsValue(defaultInputsValue);
+      setAlertMessage(null);
+      toggleDialog();
+    },
+    onError: (error) => {
+      ErrorHandler.alert(error, setAlertMessage);
+    },
+  });
+
   const onChangeHandler = (event) => {
     const key = event.target.name;
 
@@ -50,23 +71,29 @@ const AddTransaction = () => {
     setInputsValue(newInputsValue);
   };
 
+  const onCloseHandler = () => {
+    setAlertMessage(null);
+  };
+
   const submitHandler = (event) => {
     try {
       event.preventDefault();
-      setInputsValue(defaultInputsValue);
-      setAlertMessage(null);
-      toggleDialog();
-    } catch (error) {
-      // if (error instanceof ClientError) {
-      //   setAlertMessage(error.message);
-      //   return;
-      // }
 
-      // eslint-disable-next-line no-console
-      console.log(error);
-      setAlertMessage(CONFIG.DEFAULT_ERROR_MESSAGE);
+      const user = UserHelper.getSignInUser();
+      const formattedValue = TransactionHelper.formatTransactionValue(inputsValue);
+      const variables = { ...formattedValue, userId: user.id };
+
+      InputValidator.validateTransaction(variables);
+
+      createTransaction({ variables });
+    } catch (error) {
+      ErrorHandler.alert(error, setAlertMessage);
     }
   };
+
+  if (createTransactionLoading) {
+    return (<Loading title="Creating transaction ..." />);
+  }
 
   return (
     <Box
@@ -102,24 +129,22 @@ const AddTransaction = () => {
               type="text"
               fullWidth
               variant="standard"
-              inputProps={{ maxLength: CONFIG.TRANSACTION_TITLE_MAX_LENGTH }}
               value={inputsValue.title}
               onChange={onChangeHandler}
             />
 
-            <TextField
+            <NumberFormat
+              thousandSeparator="."
+              decimalSeparator=","
+              customInput={TextField}
+              displayType="number"
               required
               margin="dense"
               id="credit"
               label="Credit"
               name="credit"
-              type="number"
               fullWidth
               variant="standard"
-              inputProps={{
-                min: CONFIG.TRANSACTION_CREDIT_MIN,
-                max: CONFIG.TRANSACTION_CREDIT_MAX,
-              }}
               value={inputsValue.credit}
               onChange={onChangeHandler}
             />
@@ -154,12 +179,6 @@ const AddTransaction = () => {
             </FormControl>
           </DialogContent>
 
-          {alertMessage && (
-            <DialogContentText>
-              <Alert severity="error">{alertMessage}</Alert>
-            </DialogContentText>
-          )}
-
           <DialogActions>
             <Button
               type="button"
@@ -176,6 +195,8 @@ const AddTransaction = () => {
         </form>
 
       </Dialog>
+
+      <Alert title="Error Occured !" message={alertMessage || ''} openTrigger={!!alertMessage} onCloseHandler={onCloseHandler} />
     </Box>
   );
 };

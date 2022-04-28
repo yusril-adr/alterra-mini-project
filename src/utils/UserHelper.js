@@ -4,6 +4,9 @@ import { encode } from 'js-base64';
 import AuthenticationError from '../exceptions/AuthenticationError';
 import CONFIG from '../global/CONFIG';
 
+// Services
+import localStorageService from '../services/localStorage';
+
 // Utils
 import TokenManager from './TokenManager';
 
@@ -32,21 +35,21 @@ const UserHelper = {
     }
   },
 
-  _initToken({ id, username }) {
-    const token = TokenManager.createToken({ id, username });
+  _initToken({ id }) {
+    const token = TokenManager.createToken({ id });
 
-    window.localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, token);
+    localStorageService.setItem(CONFIG.TOKEN_KEY, token);
   },
 
   getSignInUser() {
-    const token = window.localStorage.getItem(CONFIG.LOCAL_STORAGE_KEY);
+    const token = localStorageService.getItem(CONFIG.TOKEN_KEY);
 
     const user = TokenManager.verifyToken(token);
     return user;
   },
 
   signOutUser() {
-    window.localStorage.removeItem(CONFIG.LOCAL_STORAGE_KEY);
+    localStorageService.removeItem(CONFIG.TOKEN_KEY);
   },
 };
 

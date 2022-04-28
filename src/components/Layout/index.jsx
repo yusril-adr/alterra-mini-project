@@ -1,4 +1,5 @@
-import { useLocation, Outlet } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom';
 
 // Package Components
 import Container from '@mui/material/Container';
@@ -10,9 +11,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import NavBar from '../NavBar';
 import Footer from '../Footer';
 
-const Layout = () => {
-  const location = useLocation();
-
+const Layout = ({ user }) => {
   const navigations = [
     {
       name: 'List',
@@ -34,11 +33,9 @@ const Layout = () => {
     },
   ];
 
-  const showNavigations = location.pathname !== '/sign-in' && location.pathname !== '/sign-up';
-
   return (
     <>
-      <NavBar navigationList={navigations} showNavigations={showNavigations} />
+      <NavBar navigationList={navigations} showNavigations={!!user} />
 
       <Container
         component="main"
@@ -56,6 +53,14 @@ const Layout = () => {
       <Footer />
     </>
   );
+};
+
+Layout.propTypes = {
+  user: PropTypes.any,
+};
+
+Layout.defaultProps = {
+  user: null,
 };
 
 export default Layout;
