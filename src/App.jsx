@@ -17,7 +17,7 @@ import TransactionDetail from './pages/TransactionDetail';
 import UserHelper from './utils/UserHelper';
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(UserHelper.getSignInUser());
   const location = useLocation();
 
   useEffect(() => {

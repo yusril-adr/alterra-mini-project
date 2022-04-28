@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useLazyQuery } from '@apollo/client';
 
 // MUI Components
@@ -16,6 +16,10 @@ import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
+
+// MUI Colors
+import { blue } from '@mui/material/colors';
 
 // MUI Icons
 import Visibility from '@mui/icons-material/Visibility';
@@ -126,6 +130,7 @@ const SignIn = () => {
             <TextField
               autoFocus
               required
+              autoComplete="off"
               margin="dense"
               id="username"
               label="Username"
@@ -144,6 +149,7 @@ const SignIn = () => {
                 name="password"
                 fullWidth
                 required
+                autoComplete="off"
                 type={showPassword ? 'text' : 'password'}
                 value={inputsValue.password}
                 onChange={onChangeHandler}
@@ -171,7 +177,19 @@ const SignIn = () => {
         <Card>
           <CardContent>
             <Typography textAlign="center">
-              {'Don\'t have account?'} <Link to="/sign-up">Sign Up</Link>
+              {'Don\'t have account? '}
+              <Link
+                to="/sign-up"
+                component={RouterLink}
+                sx={{
+                  textDecoration: 'none',
+                  ':hover': {
+                    color: blue.A400,
+                  },
+                }}
+              >
+                Sign Up
+              </Link>
             </Typography>
           </CardContent>
         </Card>

@@ -18,8 +18,11 @@ import ListItemText from '@mui/material/ListItemText';
 // MUI Color
 import { blue, grey } from '@mui/material/colors';
 
+// Assets
+import styles from './style.module.css';
+import logo from '../../images/logo.png';
+
 // Global Components
-import logo from '../../images/loading.svg';
 import NavLink from '../NavLink';
 
 const NavBar = ({ title, navigationList, showNavigations }) => {
@@ -75,9 +78,15 @@ const NavBar = ({ title, navigationList, showNavigations }) => {
           onKeyDown={toggleDrawer}
         >
           <Box
-            sx={{ backgroundColor: blue[700] }}
+            sx={{
+              backgroundColor: blue[700],
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingY: '2rem',
+            }}
           >
-            <img src={logo} alt="logo" />
+            <img src={logo} alt="logo" className={styles.logo_image} />
           </Box>
 
           <List>

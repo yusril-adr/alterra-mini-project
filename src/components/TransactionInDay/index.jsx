@@ -52,6 +52,7 @@ const TransactionInDay = ({ date, transactions }) => {
           to={`/transaction/${id}`}
           sx={{
             textDecoration: 'none',
+            color: 'inherit',
             ':hover': {
               color: blue.A400,
             },

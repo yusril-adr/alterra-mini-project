@@ -1,14 +1,15 @@
 import { gql } from '@apollo/client';
 
 const Query = {
-  GetUserTransactions: gql`
-    query GetUserTransactions($userId: uuid = "") {
-      result: wager_lite_transactions(where: {userId: {_eq: $userId}}) {
+  GetTransactionById: gql`
+    query GetTransactionById($id: uuid = "") {
+      result: wager_lite_transactions_by_pk(id: $id) {
         id
         title
         credit
         date
         type
+        userId
       }
     }
   `,

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import Swal from 'sweetalert2';
 
@@ -17,6 +17,10 @@ import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
+
+// MUI Colors
+import { blue } from '@mui/material/colors';
 
 // MUI Icons
 import Visibility from '@mui/icons-material/Visibility';
@@ -136,6 +140,7 @@ const SignUp = () => {
             <TextField
               autoFocus
               required
+              autoComplete="off"
               margin="dense"
               id="username"
               label="Username"
@@ -152,6 +157,7 @@ const SignUp = () => {
               <Input
                 id="password"
                 name="password"
+                autoComplete="off"
                 fullWidth
                 required
                 type={showPassword ? 'text' : 'password'}
@@ -176,6 +182,7 @@ const SignUp = () => {
               <Input
                 id="confirm_password"
                 name="confirmPassword"
+                autoComplete="off"
                 fullWidth
                 required
                 type={showConfirmPassword ? 'text' : 'password'}
@@ -205,7 +212,19 @@ const SignUp = () => {
         <Card>
           <CardContent>
             <Typography textAlign="center">
-              Have an account? <Link to="/sign-in">Sign In</Link>
+              {'Have an account ? '}
+              <Link
+                to="/sign-in"
+                component={RouterLink}
+                sx={{
+                  textDecoration: 'none',
+                  ':hover': {
+                    color: blue.A400,
+                  },
+                }}
+              >
+                Sign In
+              </Link>
             </Typography>
           </CardContent>
         </Card>

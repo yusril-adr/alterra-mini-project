@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import NumberFormat from 'react-number-format';
 import { useMutation } from '@apollo/client';
 import moment from 'moment';
 
-// MUI Components
+// Package Components
+import NumberFormat from 'react-number-format';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -122,6 +122,7 @@ const AddTransaction = () => {
             <TextField
               autoFocus
               required
+              autoComplete="off"
               margin="dense"
               id="title"
               label="Title"
@@ -136,6 +137,8 @@ const AddTransaction = () => {
             <NumberFormat
               thousandSeparator="."
               decimalSeparator=","
+              decimalScale={0}
+              autoComplete="off"
               customInput={TextField}
               displayType="number"
               required

@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation } from '@apollo/client';
+import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 import moment from 'moment';
 
-// MUI Components
+// Package Components
+import NumberFormat from 'react-number-format';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -16,10 +21,18 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 
 // Global Components
+import Loading from '../../components/Loading';
 import Alert from '../../components/Alert';
+import TransactionNotFound from '../../components/TransactionNotFound';
 
-// Configuration
-import CONFIG from '../../global/CONFIG';
+// GraphQL Queries
+import { Mutation, Query } from '../../services/apollo/transactions';
+
+// Utils
+import ErrorHandler from '../../utils/ErrorHandler';
+import TransactionHelper from '../../utils/TransactionHelper';
+import InputValidator from '../../utils/InputValidator';
+import MoneyFormatter from '../../utils/MoneyFormatter';
 
 const defaultInputsValue = {
   title: '',
@@ -28,9 +41,57 @@ const defaultInputsValue = {
   type: 'Income',
 };
 
-const TransactionDetail = () => {
+const TransactionDetail = ({ user }) => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [inputsValue, setInputsValue] = useState(defaultInputsValue);
+
+  const { transactionId } = useParams();
+  const navigate = useNavigate();
+
+  const {
+    data: { result: transaction } = { result: null },
+    loading: getTransactionLoading,
+  } = useQuery(Query.GetTransactionById, {
+    variables: { id: transactionId },
+    onCompleted: async ({ result }) => {
+      if (result && result.userId !== user.id) {
+        await Swal.fire('Forbidden', `This transaction is not belong to ${user.username}`, 'error');
+        return navigate('/');
+      }
+
+      const formatedCredit = MoneyFormatter.format(result.credit);
+
+      return setInputsValue({ ...result, credit: formatedCredit });
+    },
+    onError: (error) => {
+      ErrorHandler.alert(error, setAlertMessage);
+    },
+  });
+
+  const [updateTransactionById, {
+    loading: updateTransactionLoading,
+  }] = useMutation(Mutation.UpdateTransactionById, {
+    onCompleted: async () => {
+      await Swal.fire('Success', 'Transaction Updated', 'success');
+      setAlertMessage(null);
+    },
+    onError: (error) => {
+      ErrorHandler.alert(error, setAlertMessage);
+    },
+  });
+
+  const [deleteTransactionById, {
+    loading: deleteTransactionLoading,
+  }] = useMutation(Mutation.DeleteTransactionById, {
+    onCompleted: async () => {
+      await Swal.fire('Success', 'Transaction Deleted', 'success');
+      setAlertMessage(null);
+      navigate('/');
+    },
+    onError: (error) => {
+      ErrorHandler.alert(error, setAlertMessage);
+    },
+  });
 
   const onChangeHandler = (event) => {
     const key = event.target.name;
@@ -41,26 +102,57 @@ const TransactionDetail = () => {
     setInputsValue(newInputsValue);
   };
 
-  const submitHandler = (event) => {
-    try {
-      event.preventDefault();
-      setInputsValue(defaultInputsValue);
-      setAlertMessage(null);
-    } catch (error) {
-      // if (error instanceof ClientError) {
-      //   setAlertMessage(error.message);
-      //   return;
-      // }
-
-      // eslint-disable-next-line no-console
-      console.log(error);
-      setAlertMessage(CONFIG.DEFAULT_ERROR_MESSAGE);
-    }
-  };
-
   const onCloseHandler = () => {
     setAlertMessage(null);
   };
+
+  const submitHandler = (event) => {
+    try {
+      event.preventDefault();
+
+      const formattedValue = TransactionHelper.formatTransactionValue(inputsValue);
+      const variables = { ...formattedValue, userId: user.id };
+
+      InputValidator.validateTransaction(variables);
+
+      updateTransactionById({ variables });
+    } catch (error) {
+      ErrorHandler.alert(error, setAlertMessage);
+    }
+  };
+
+  const deleteHandler = async () => {
+    const confirmation = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    });
+
+    if (confirmation.isConfirmed) {
+      const variables = { id: transactionId };
+      deleteTransactionById({ variables });
+    }
+  };
+
+  if (getTransactionLoading) {
+    return (<Loading title="Fetching Transaction ..." />);
+  }
+
+  if (updateTransactionLoading) {
+    return (<Loading title="Updating Transaction ..." />);
+  }
+
+  if (deleteTransactionLoading) {
+    return (<Loading title="Deleting Transaction ..." />);
+  }
+
+  if (!transaction) {
+    return (<TransactionNotFound />);
+  }
 
   return (
     <Box
@@ -80,6 +172,7 @@ const TransactionDetail = () => {
             <TextField
               autoFocus
               required
+              autoComplete="off"
               margin="dense"
               id="title"
               label="Title"
@@ -91,19 +184,20 @@ const TransactionDetail = () => {
               onChange={onChangeHandler}
             />
 
-            <TextField
+            <NumberFormat
+              thousandSeparator="."
+              decimalSeparator=","
+              decimalScale={0}
+              autoComplete="off"
+              customInput={TextField}
+              displayType="number"
               required
               margin="dense"
               id="credit"
               label="Credit"
               name="credit"
-              type="number"
               fullWidth
               variant="standard"
-              inputProps={{
-                min: CONFIG.TRANSACTION_CREDIT_MIN,
-                max: CONFIG.TRANSACTION_CREDIT_MAX,
-              }}
               value={inputsValue.credit}
               onChange={onChangeHandler}
             />
@@ -141,13 +235,21 @@ const TransactionDetail = () => {
           </CardContent>
 
           <CardActions sx={{ pb: '1rem', display: 'flex', justifyContent: 'center' }}>
-            <Button type="button" variant="contained" color="error" sx={{ marginRight: '1rem' }}>Delete</Button>
+            <Button type="button" variant="contained" color="error" sx={{ marginRight: '1rem' }} onClick={deleteHandler}>Delete</Button>
             <Button type="submit" variant="contained" color="primary">Save</Button>
           </CardActions>
         </Card>
       </form>
     </Box>
   );
+};
+
+TransactionDetail.propTypes = {
+  user: PropTypes.any,
+};
+
+TransactionDetail.defaultProps = {
+  user: null,
 };
 
 export default TransactionDetail;
