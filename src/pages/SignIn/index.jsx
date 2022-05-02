@@ -145,6 +145,7 @@ const SignIn = () => {
                 required
                 id="password"
                 name="password"
+                autoComplete="off"
                 type={showPassword ? 'text' : 'password'}
                 value={inputsValue.password}
                 onChange={onChangeHandler}

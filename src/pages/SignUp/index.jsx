@@ -10,11 +10,10 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
@@ -128,12 +127,10 @@ const SignUp = () => {
     >
       <Box component="form" sx={{ width: '100%' }} onSubmit={submitHandler}>
         <Card>
-          <CardContent sx={{ pt: '.5rem', pb: 0 }}>
+          <CardContent sx={{ p: '1.5rem' }}>
             <Typography variant="h4" element="h2" textAlign="center">
               Sign Up
             </Typography>
-
-            <Divider sx={{ mt: '.5rem' }} />
           </CardContent>
 
           <CardContent sx={{ pt: 0 }}>
@@ -147,19 +144,18 @@ const SignUp = () => {
               name="username"
               type="text"
               fullWidth
-              variant="standard"
+              variant="outlined"
               value={inputsValue.username}
               onChange={onChangeHandler}
             />
 
             <FormControl sx={{ width: '100%', mt: '1rem' }}>
-              <InputLabel htmlFor="password" sx={{ left: '-14px' }}>Password *</InputLabel>
-              <Input
+              <InputLabel htmlFor="password">Password *</InputLabel>
+              <OutlinedInput
+                required
                 id="password"
                 name="password"
                 autoComplete="off"
-                fullWidth
-                required
                 type={showPassword ? 'text' : 'password'}
                 value={inputsValue.password}
                 onChange={onChangeHandler}
@@ -169,35 +165,39 @@ const SignUp = () => {
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={toggleShowPassword}
+                      edge="end"
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-              )}
+                )}
+                label="Password *"
               />
             </FormControl>
 
             <FormControl sx={{ width: '100%', mt: '1rem' }}>
-              <InputLabel htmlFor="confirm_password" sx={{ left: '-14px' }}>Confirm Password *</InputLabel>
-              <Input
+              <InputLabel htmlFor="confirm_password">Confirm Password *</InputLabel>
+              <OutlinedInput
+                required
                 id="confirm_password"
                 name="confirmPassword"
                 autoComplete="off"
-                fullWidth
-                required
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={inputsValue.confirmPassword}
                 onChange={onChangeHandler}
+                inputProps={{ minLength: CONFIG.USER_PASSWORD_MIN_LENGTH }}
                 endAdornment={(
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={toggleShowConfirmPassword}
+                      edge="end"
                     >
                       {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-              )}
+                )}
+                label="Confirm Password *"
               />
             </FormControl>
           </CardContent>
