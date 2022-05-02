@@ -115,7 +115,7 @@ const AddTransaction = () => {
       </Container>
 
       <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle sx={{ pb: 0 }}>New Transaction</DialogTitle>
+        <DialogTitle sx={{ p: '1.5rem' }} align="center">New Transaction</DialogTitle>
 
         <form onSubmit={submitHandler}>
           <DialogContent sx={{ pt: 0 }}>
@@ -129,7 +129,7 @@ const AddTransaction = () => {
               name="title"
               type="text"
               fullWidth
-              variant="standard"
+              variant="outlined"
               value={inputsValue.title}
               onChange={onChangeHandler}
             />
@@ -147,7 +147,7 @@ const AddTransaction = () => {
               label="Credit"
               name="credit"
               fullWidth
-              variant="standard"
+              variant="outlined"
               value={inputsValue.credit}
               onChange={onChangeHandler}
             />
@@ -160,7 +160,7 @@ const AddTransaction = () => {
               name="date"
               type="date"
               fullWidth
-              variant="standard"
+              variant="outlined"
               value={inputsValue.date}
               onChange={onChangeHandler}
             />
