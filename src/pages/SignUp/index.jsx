@@ -212,7 +212,7 @@ const SignUp = () => {
         <Card>
           <CardContent>
             <Typography textAlign="center">
-              {'Have an account ? '}
+              {'Have an account? '}
               <Link
                 to="/sign-in"
                 component={RouterLink}
