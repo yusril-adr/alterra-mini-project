@@ -33,7 +33,7 @@ const SummaryTransaction = ({ transactions }) => {
             Income
           </Typography>
 
-          <Typography sx={{ color: orange.A400 }}>
+          <Typography className="text-ellipsis" sx={{ color: orange.A400 }}>
             {MoneyFormatter.format(income)}
           </Typography>
         </Grid>
@@ -54,7 +54,7 @@ const SummaryTransaction = ({ transactions }) => {
             Outcome
           </Typography>
 
-          <Typography sx={{ color: red.A400 }}>
+          <Typography className="text-ellipsis" sx={{ color: red.A400 }}>
             {MoneyFormatter.format(outcome)}
           </Typography>
         </Grid>
@@ -75,7 +75,7 @@ const SummaryTransaction = ({ transactions }) => {
             Balance
           </Typography>
 
-          <Typography sx={{ color: blue.A400 }}>
+          <Typography className="text-ellipsis" sx={{ color: blue.A400 }}>
             {MoneyFormatter.format(balance)}
           </Typography>
         </Grid>
