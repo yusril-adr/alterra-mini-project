@@ -17,7 +17,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 
 // Global Components
@@ -160,12 +159,10 @@ const TransactionDetail = ({ user }) => {
     >
       <form onSubmit={submitHandler}>
         <Card>
-          <CardContent sx={{ pt: '.5rem', pb: 0 }}>
+          <CardContent sx={{ p: '1rem' }}>
             <Typography variant="h4" element="h2" textAlign="center">
               Edit
             </Typography>
-
-            <Divider sx={{ mt: '.5rem' }} />
           </CardContent>
 
           <CardContent sx={{ pt: 0 }}>
@@ -179,7 +176,7 @@ const TransactionDetail = ({ user }) => {
               name="title"
               type="text"
               fullWidth
-              variant="standard"
+              variant="outlined"
               value={inputsValue.title}
               onChange={onChangeHandler}
             />
@@ -197,7 +194,7 @@ const TransactionDetail = ({ user }) => {
               label="Credit"
               name="credit"
               fullWidth
-              variant="standard"
+              variant="outlined"
               value={inputsValue.credit}
               onChange={onChangeHandler}
             />
@@ -210,7 +207,7 @@ const TransactionDetail = ({ user }) => {
               name="date"
               type="date"
               fullWidth
-              variant="standard"
+              variant="outlined"
               value={inputsValue.date}
               onChange={onChangeHandler}
             />
