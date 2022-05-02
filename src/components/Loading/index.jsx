@@ -1,15 +1,38 @@
 import PropTypes from 'prop-types';
 
+// MUI Components
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
 // Assets
-import loadingImg from '../../images/loading.svg';
 import styles from './style.module.css';
 
 const Loading = ({ title } = {}) => (
-  <main className={styles.container}>
-    <img src={loadingImg} alt="Loading ..." className={styles.image} />
+  <Box
+    component="main"
+    sx={{
+      position: 'absolute',
+      inset: 0,
+      backgroundColor: 'white',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <div className={styles.loading} />
 
-    <h1 className={styles.loading_text}>{title}</h1>
-  </main>
+    <Typography
+      variant="h6"
+      component="h1"
+      sx={{
+        mt: '2rem',
+        fontWeight: 'normal',
+      }}
+    >
+      {title}
+    </Typography>
+  </Box>
 );
 
 Loading.propTypes = {
