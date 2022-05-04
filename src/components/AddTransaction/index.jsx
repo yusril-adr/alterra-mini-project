@@ -115,7 +115,7 @@ const AddTransaction = () => {
       </Container>
 
       <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle sx={{ p: '1.5rem' }} align="center">New Transaction</DialogTitle>
+        <DialogTitle sx={{ p: '1.5rem' }} align="center">Add Transaction</DialogTitle>
 
         <form onSubmit={submitHandler}>
           <DialogContent sx={{ pt: 0 }}>
