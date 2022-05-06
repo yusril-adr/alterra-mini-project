@@ -1,7 +1,7 @@
 import { encode } from 'js-base64';
 
-// Exceptions
-import AuthenticationError from '../exceptions/AuthenticationError';
+// Errors
+import AuthenticationError from '../errors/AuthenticationError';
 import CONFIG from '../global/CONFIG';
 
 // Services

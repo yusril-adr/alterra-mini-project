@@ -33,7 +33,7 @@ import { Query } from '../../services/apollo/users';
 
 // Utils
 import UserHelper from '../../utils/UserHelper';
-import AuthenticationError from '../../exceptions/AuthenticationError';
+import AuthenticationError from '../../errors/AuthenticationError';
 import ErrorHandler from '../../utils/ErrorHandler';
 
 const defaultInputsValue = {

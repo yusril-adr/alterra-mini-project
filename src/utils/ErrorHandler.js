@@ -1,5 +1,5 @@
-// Exceptions
-import ClientError from '../exceptions/ClientError';
+// Errors
+import ClientError from '../errors/ClientError';
 
 // Configuration
 import CONFIG from '../global/CONFIG';

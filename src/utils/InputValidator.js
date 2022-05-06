@@ -1,5 +1,5 @@
-// Exceptions
-import InvariantError from '../exceptions/InvariantError';
+// Errors
+import InvariantError from '../errors/InvariantError';
 
 // Configuration
 import CONFIG from '../global/CONFIG';

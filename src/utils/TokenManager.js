@@ -1,7 +1,7 @@
 import { encode, decode } from 'js-base64';
 
-// Exceptions
-import AuthenticationError from '../exceptions/AuthenticationError';
+// Errors
+import AuthenticationError from '../errors/AuthenticationError';
 
 // Configuration
 import CONFIG from '../global/CONFIG';
