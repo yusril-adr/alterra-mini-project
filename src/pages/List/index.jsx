@@ -18,7 +18,7 @@ import { Subscription } from '../../services/apollo/transactions';
 // Utils
 import ErrorHandler from '../../utils/ErrorHandler';
 
-const Home = ({ user }) => {
+const List = ({ user }) => {
   const [alertMessage, setAlertMessage] = useState(null);
 
   const {
@@ -55,12 +55,12 @@ const Home = ({ user }) => {
   );
 };
 
-Home.propTypes = {
+List.propTypes = {
   user: PropTypes.any,
 };
 
-Home.defaultProps = {
+List.defaultProps = {
   user: null,
 };
 
-export default Home;
+export default List;

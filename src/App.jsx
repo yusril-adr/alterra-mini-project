@@ -10,7 +10,7 @@ import Layout from './components/Layout';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import SignOut from './pages/SignOut';
-import Home from './pages/Home';
+import List from './pages/List';
 import TransactionDetail from './pages/TransactionDetail';
 
 // Utils
@@ -32,7 +32,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout user={user} />}>
-        <Route index element={user ? <Home user={user} /> : <Navigate to="/sign-in" replace />} />
+        <Route index element={user ? <List user={user} /> : <Navigate to="/sign-in" replace />} />
 
         {user && (
           <>
