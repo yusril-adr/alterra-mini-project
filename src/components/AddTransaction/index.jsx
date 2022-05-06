@@ -92,7 +92,7 @@ const AddTransaction = () => {
   };
 
   if (createTransactionLoading) {
-    return (<Loading title="Creating transaction ..." />);
+    return (<Loading title="Adding new transaction ..." />);
   }
 
   return (
