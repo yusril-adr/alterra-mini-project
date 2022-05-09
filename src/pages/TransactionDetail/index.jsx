@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 
@@ -40,7 +40,8 @@ const defaultInputsValue = {
   type: 'Income',
 };
 
-const TransactionDetail = ({ user }) => {
+const TransactionDetail = () => {
+  const user = useSelector((state) => state.user.value);
   const [alertMessage, setAlertMessage] = useState(null);
   const [inputsValue, setInputsValue] = useState(defaultInputsValue);
 
@@ -239,14 +240,6 @@ const TransactionDetail = ({ user }) => {
       </form>
     </Box>
   );
-};
-
-TransactionDetail.propTypes = {
-  user: PropTypes.any,
-};
-
-TransactionDetail.defaultProps = {
-  user: null,
 };
 
 export default TransactionDetail;

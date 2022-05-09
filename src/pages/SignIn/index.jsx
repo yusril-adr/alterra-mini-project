@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useLazyQuery } from '@apollo/client';
 
@@ -31,6 +32,9 @@ import Loading from '../../components/Loading';
 // GraphQL Queries
 import { Query } from '../../services/apollo/users';
 
+// Redux Actions
+import { signIn } from '../../services/redux/user';
+
 // Utils
 import UserHelper from '../../utils/UserHelper';
 import AuthenticationError from '../../errors/AuthenticationError';
@@ -46,6 +50,8 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [inputsValue, setInputsValue] = useState(defaultInputsValue);
 
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const [getUserByUsername, { loading: signInLoading }] = useLazyQuery(Query.GetUserByUsername, {
@@ -54,7 +60,7 @@ const SignIn = () => {
         const [user] = result;
         if (!user) throw new AuthenticationError('Username didn\'t exist.');
 
-        UserHelper.signInUser(inputsValue, user);
+        dispatch(signIn({ inputtedUser: inputsValue, user }));
 
         navigate('/', { replace: true });
         setInputsValue(defaultInputsValue);

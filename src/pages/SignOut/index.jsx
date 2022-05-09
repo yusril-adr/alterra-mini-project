@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Navigate,
 } from 'react-router-dom';
 
-// Utils
-import UserHelper from '../../utils/UserHelper';
+// Redux Actions
+import { signOut } from '../../services/redux/user';
 
 const SignOut = () => {
-  useEffect(() => {
-    UserHelper.signOutUser();
-  });
+  const dispatch = useDispatch();
+
+  dispatch(signOut());
 
   return (<Navigate to="/" replace />);
 };

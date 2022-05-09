@@ -16,9 +16,9 @@ const UserHelper = {
     const encodedPassword = encode(password);
 
     return {
-      ...payload,
       username: formattedUsername,
       password: encodedPassword,
+      ...payload,
     };
   },
 

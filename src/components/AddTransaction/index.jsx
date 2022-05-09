@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useMutation } from '@apollo/client';
 import moment from 'moment';
 
@@ -29,7 +30,6 @@ import Mutation from '../../services/apollo/transactions/Mutation';
 // Utils
 // import UserHelper from '../../utils/UserHelper';
 import ErrorHandler from '../../utils/ErrorHandler';
-import UserHelper from '../../utils/UserHelper';
 import TransactionHelper from '../../utils/TransactionHelper';
 import InputValidator from '../../utils/InputValidator';
 
@@ -44,6 +44,7 @@ const AddTransaction = () => {
   const [open, setOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
   const [inputsValue, setInputsValue] = useState(defaultInputsValue);
+  const user = useSelector((state) => state.user.value);
 
   const toggleDialog = () => {
     setOpen(!open);
@@ -79,7 +80,6 @@ const AddTransaction = () => {
     try {
       event.preventDefault();
 
-      const user = UserHelper.getSignInUser();
       const formattedValue = TransactionHelper.formatTransactionValue(inputsValue);
       const variables = { ...formattedValue, userId: user.id };
 

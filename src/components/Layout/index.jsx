@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // Package Components
 import Container from '@mui/material/Container';
@@ -11,7 +11,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import NavBar from '../NavBar';
 import Footer from '../Footer';
 
-const Layout = ({ user }) => {
+const Layout = () => {
+  const user = useSelector((state) => state.user.value);
+
   const navigations = [
     {
       name: 'List',
@@ -53,14 +55,6 @@ const Layout = ({ user }) => {
       <Footer />
     </>
   );
-};
-
-Layout.propTypes = {
-  user: PropTypes.any,
-};
-
-Layout.defaultProps = {
-  user: null,
 };
 
 export default Layout;

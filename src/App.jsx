@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
 import {
-  useLocation, Routes, Route, Navigate,
+  Routes, Route, Navigate,
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // Global Component
 import Layout from './components/Layout';
@@ -13,32 +13,19 @@ import SignOut from './pages/SignOut';
 import List from './pages/List';
 import TransactionDetail from './pages/TransactionDetail';
 
-// Utils
-import UserHelper from './utils/UserHelper';
-
 const App = () => {
-  const [user, setUser] = useState(UserHelper.getSignInUser());
-  const location = useLocation();
-
-  useEffect(() => {
-    try {
-      const signInUser = UserHelper.getSignInUser();
-      setUser(signInUser);
-    } catch (error) {
-      setUser(null);
-    }
-  }, [location]);
+  const user = useSelector((state) => state.user.value);
 
   return (
     <Routes>
-      <Route path="/" element={<Layout user={user} />}>
-        <Route index element={user ? <List user={user} /> : <Navigate to="/sign-in" replace />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={user ? <List /> : <Navigate to="/sign-in" replace />} />
 
         {user && (
           <>
             <Route path="transaction">
               <Route index element={<Navigate to="/" replace />} />
-              <Route path=":transactionId" element={<TransactionDetail user={user} />} />
+              <Route path=":transactionId" element={<TransactionDetail />} />
             </Route>
 
             <Route path="sign-out" element={<SignOut />} />

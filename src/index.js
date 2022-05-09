@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import {
   ApolloProvider,
 } from '@apollo/client';
+import { Provider } from 'react-redux';
 
 // CSS Assets
 import '@fontsource/roboto/300.css';
@@ -16,6 +17,9 @@ import './index.css';
 // GraphQL Client
 import client from './services/apollo/client';
 
+// Redux Store
+import store from './services/redux/store';
+
 // Utils
 import reportWebVitals from './utils/reportWebVitals';
 
@@ -25,9 +29,11 @@ import App from './App';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ApolloProvider client={client}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </ApolloProvider>,
 );
 

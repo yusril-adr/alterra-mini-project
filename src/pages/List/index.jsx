@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useSubscription } from '@apollo/client';
-import PropTypes from 'prop-types';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -18,7 +18,9 @@ import { Subscription } from '../../services/apollo/transactions';
 // Utils
 import ErrorHandler from '../../utils/ErrorHandler';
 
-const List = ({ user }) => {
+const List = () => {
+  const user = useSelector((state) => state.user.value);
+
   const [alertMessage, setAlertMessage] = useState(null);
 
   const {
@@ -53,14 +55,6 @@ const List = ({ user }) => {
       <Alert title="Error Occured !" message={alertMessage || ''} openTrigger={!!alertMessage} onCloseHandler={onCloseHandler} />
     </Box>
   );
-};
-
-List.propTypes = {
-  user: PropTypes.any,
-};
-
-List.defaultProps = {
-  user: null,
 };
 
 export default List;
