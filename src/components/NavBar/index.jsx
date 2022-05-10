@@ -86,7 +86,7 @@ const NavBar = ({ title, navigationList, showNavigations }) => {
               paddingY: '2rem',
             }}
           >
-            <img src={logo} alt="logo" className={styles.logo_image} />
+            <img data-src={logo} alt="logo" className={`lazyload ${styles.logo_image}`} />
           </Box>
 
           <List>

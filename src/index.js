@@ -7,6 +7,10 @@ import {
 } from '@apollo/client';
 import { Provider } from 'react-redux';
 
+// Lazy Loading
+import 'lazysizes';
+import 'lazysizes/plugins/parent-fit/ls.parent-fit';
+
 // CSS Assets
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
