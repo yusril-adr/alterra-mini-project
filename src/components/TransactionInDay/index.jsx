@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
 
@@ -21,7 +22,8 @@ import TransactionHelper from '../../utils/TransactionHelper';
 import MoneyFormatter from '../../utils/MoneyFormatter';
 import CONFIG from '../../global/CONFIG';
 
-const TransactionInDay = ({ date, transactions }) => {
+const TransactionInDay = ({ date }) => {
+  const transactions = useSelector((state) => state.transactions.value);
   const transactionsInDay = TransactionHelper.getTransactionsInDay(date, transactions);
   const balance = TransactionHelper.getBalanceTotal(transactionsInDay);
 
@@ -90,7 +92,6 @@ const TransactionInDay = ({ date, transactions }) => {
 
 TransactionInDay.propTypes = {
   date: PropTypes.string.isRequired,
-  transactions: PropTypes.array.isRequired,
 };
 
 export default TransactionInDay;

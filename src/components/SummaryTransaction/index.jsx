@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 // MUI Components
 import Card from '@mui/material/Card';
@@ -13,7 +13,9 @@ import { orange, red, blue } from '@mui/material/colors';
 import TransactionHelper from '../../utils/TransactionHelper';
 import MoneyFormatter from '../../utils/MoneyFormatter';
 
-const SummaryTransaction = ({ transactions }) => {
+const SummaryTransaction = () => {
+  const transactions = useSelector((state) => state.transactions.value);
+
   const { income, outcome, balance } = TransactionHelper.getAllSummary(transactions);
 
   return (
@@ -82,10 +84,6 @@ const SummaryTransaction = ({ transactions }) => {
       </Grid>
     </Card>
   );
-};
-
-SummaryTransaction.propTypes = {
-  transactions: PropTypes.array.isRequired,
 };
 
 export default SummaryTransaction;

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -7,7 +7,8 @@ import Box from '@mui/material/Box';
 import TransactionInDay from '../TransactionInDay';
 import TransactionHelper from '../../utils/TransactionHelper';
 
-const TransactionList = ({ transactions }) => {
+const TransactionList = () => {
+  const transactions = useSelector((state) => state.transactions.value);
   const allDate = TransactionHelper.getAllDate(transactions);
 
   return (
@@ -27,15 +28,11 @@ const TransactionList = ({ transactions }) => {
       }}
     >
       {allDate.map((date) => (
-        <TransactionInDay key={date} transactions={transactions} date={date} />
+        <TransactionInDay key={date} date={date} />
       ))}
 
     </Box>
   );
-};
-
-TransactionList.propTypes = {
-  transactions: PropTypes.array.isRequired,
 };
 
 export default TransactionList;

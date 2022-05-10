@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useSubscription } from '@apollo/client';
 
 // MUI Components
@@ -15,6 +15,9 @@ import AddTransaction from '../../components/AddTransaction';
 // GraphQL Subscriptions
 import { Subscription } from '../../services/apollo/transactions';
 
+// Redux Actions
+import { updateList } from '../../services/redux/transactions';
+
 // Utils
 import ErrorHandler from '../../utils/ErrorHandler';
 
@@ -22,6 +25,8 @@ const List = () => {
   const user = useSelector((state) => state.user.value);
 
   const [alertMessage, setAlertMessage] = useState(null);
+
+  const dispatch = useDispatch();
 
   const {
     data: { result: transactions } = { result: [] },
@@ -31,6 +36,10 @@ const List = () => {
     Subscription.GetUserTransactions,
     { variables: { userId: user.id } },
   );
+
+  if (transactions) {
+    dispatch(updateList(transactions));
+  }
 
   const onCloseHandler = () => {
     setAlertMessage(null);
@@ -46,9 +55,9 @@ const List = () => {
 
   return (
     <Box sx={{ mt: '1.5rem' }}>
-      <SummaryTransaction transactions={transactions} />
+      <SummaryTransaction />
 
-      <TransactionList transactions={transactions} />
+      <TransactionList />
 
       <AddTransaction />
 
