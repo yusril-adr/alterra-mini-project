@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Package Components
@@ -15,6 +16,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
+// MUI Icons
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 // MUI Color
 import { blue, grey } from '@mui/material/colors';
 
@@ -25,8 +32,49 @@ import logo from '../../images/logo.png';
 // Global Components
 import NavLink from '../NavLink';
 
-const NavBar = ({ title, navigationList, showNavigations }) => {
+// Utils
+import TransactionHelper from '../../utils/TransactionHelper';
+import ErrorHandler from '../../utils/ErrorHandler';
+
+const NavBar = ({ title }) => {
   const [open, setOpen] = useState(false);
+
+  const user = useSelector((state) => state.user.value);
+  const transactions = useSelector((state) => state.transactions.value);
+
+  const navigations = [
+    {
+      name: 'List',
+      path: '/',
+      external: false,
+      icon: <ListAltIcon />,
+    },
+    {
+      name: 'Download CSV',
+      external: false,
+      icon: <SimCardDownloadOutlinedIcon />,
+      custom: true,
+      onClick: () => {
+        try {
+          TransactionHelper.downloadCSV(transactions);
+        } catch (error) {
+          ErrorHandler.swal(error);
+        }
+      },
+    },
+    {
+      name: 'About Author',
+      path: 'https://yusril-adr.github.io',
+      external: true,
+      icon: <InfoOutlinedIcon />,
+    },
+    {
+      name: 'Sign Out',
+      path: '/sign-out',
+      external: false,
+      icon: <LogoutIcon />,
+    },
+  ];
 
   const toggleDrawer = (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -41,7 +89,7 @@ const NavBar = ({ title, navigationList, showNavigations }) => {
       <AppBar position="static" sx={{ bgcolor: 'primary' }}>
         <Container maxWidth="md">
           <Toolbar disableGutters>
-            <Box sx={{ display: showNavigations ? 'flex' : 'none', mr: '1rem' }}>
+            <Box sx={{ display: user ? 'flex' : 'none', mr: '1rem' }}>
               <IconButton
                 size="large"
                 aria-label="Toggle Menu"
@@ -90,7 +138,7 @@ const NavBar = ({ title, navigationList, showNavigations }) => {
           </Box>
 
           <List>
-            {navigationList.map(({
+            {navigations.map(({
               name, path, icon, external, custom, onClick,
             }) => (
               <li key={name}>
@@ -138,13 +186,10 @@ const NavBar = ({ title, navigationList, showNavigations }) => {
 
 NavBar.propTypes = {
   title: PropTypes.string,
-  navigationList: PropTypes.array.isRequired,
-  showNavigations: PropTypes.bool,
 };
 
 NavBar.defaultProps = {
   title: 'Wager',
-  showNavigations: true,
 };
 
 export default NavBar;
