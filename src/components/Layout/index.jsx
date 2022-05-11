@@ -4,15 +4,21 @@ import { useSelector } from 'react-redux';
 // Package Components
 import Container from '@mui/material/Container';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
-import InfoIcon from '@mui/icons-material/Info';
 
 // Global Components
 import NavBar from '../NavBar';
 import Footer from '../Footer';
 
+// Utils
+import TransactionHelper from '../../utils/TransactionHelper';
+import ErrorHandler from '../../utils/ErrorHandler';
+
 const Layout = () => {
   const user = useSelector((state) => state.user.value);
+  const transactions = useSelector((state) => state.transactions.value);
 
   const navigations = [
     {
@@ -22,10 +28,23 @@ const Layout = () => {
       icon: <ListAltIcon />,
     },
     {
+      name: 'Downlad Transactions',
+      external: false,
+      icon: <SimCardDownloadOutlinedIcon />,
+      custom: true,
+      onClick: () => {
+        try {
+          TransactionHelper.downloadCSV(transactions);
+        } catch (error) {
+          ErrorHandler.swal(error);
+        }
+      },
+    },
+    {
       name: 'About Author',
       path: 'https://yusril-adr.github.io',
       external: true,
-      icon: <InfoIcon />,
+      icon: <InfoOutlinedIcon />,
     },
     {
       name: 'Sign Out',

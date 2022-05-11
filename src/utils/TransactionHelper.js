@@ -1,4 +1,8 @@
+// Package
 import moment from 'moment';
+
+// Utils
+import CSVHelper from './CSVHelper';
 
 const TransactionHelper = {
   formatTransactionValue({ credit, ...payload }) {
@@ -66,6 +70,15 @@ const TransactionHelper = {
 
   getTransactionsInDay(date, transactions) {
     return transactions.filter((transaction) => transaction.date === date);
+  },
+
+  downloadCSV(transactions) {
+    const formattedTransactions = transactions.map((transaction) => {
+      const { __typename, ...payload } = transaction;
+      return { ...payload };
+    });
+    const csv = CSVHelper.convertToDownloadAbleCSV(formattedTransactions);
+    CSVHelper.downloadCSV(csv, { filename: 'transactions' });
   },
 };
 

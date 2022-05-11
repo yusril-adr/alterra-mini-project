@@ -91,12 +91,12 @@ const NavBar = ({ title, navigationList, showNavigations }) => {
 
           <List>
             {navigationList.map(({
-              name, path, icon, external,
+              name, path, icon, external, custom, onClick,
             }) => (
-              <li key={path}>
-                {external && (
-                <a href={path} key={path} target="_blank" rel="noopener noreferrer">
-                  <ListItem button key={path}>
+              <li key={name}>
+                {external && !custom && (
+                <a href={path} target="_blank" rel="noopener noreferrer">
+                  <ListItem button>
                     <ListItemIcon>
                       {icon}
                     </ListItemIcon>
@@ -106,9 +106,9 @@ const NavBar = ({ title, navigationList, showNavigations }) => {
                 </a>
                 )}
 
-                {!external && (
-                <NavLink to={path} key={path}>
-                  <ListItem button key={path}>
+                {!external && !custom && (
+                <NavLink to={path} key={name}>
+                  <ListItem button>
                     <ListItemIcon>
                       {icon}
                     </ListItemIcon>
@@ -116,6 +116,16 @@ const NavBar = ({ title, navigationList, showNavigations }) => {
                     <ListItemText primary={name} sx={{ color: grey[600] }} />
                   </ListItem>
                 </NavLink>
+                )}
+
+                {custom && (
+                  <ListItem as="button" button onClick={onClick} key={name} sx={{ border: 'inherit', background: 'inherit' }}>
+                    <ListItemIcon>
+                      {icon}
+                    </ListItemIcon>
+
+                    <ListItemText primary={name} sx={{ color: grey[600] }} />
+                  </ListItem>
                 )}
               </li>
             ))}
