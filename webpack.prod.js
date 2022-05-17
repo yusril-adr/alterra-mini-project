@@ -120,6 +120,8 @@ module.exports = merge(common, {
       swDest: 'service-worker.js',
     }),
     new CleanWebpackPlugin(),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+    }),
   ],
 });
