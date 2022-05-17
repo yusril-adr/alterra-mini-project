@@ -79,6 +79,7 @@
     "regenerator-runtime": "^0.13.9",
     "sweetalert2": "^11.4.9",
     "web-vitals": "^2.1.4",
-    "webpack-pwa-manifest": "^4.3.0"
+    "webpack-pwa-manifest": "^4.3.0",
+    "workbox-webpack-plugin": "^6.5.3"
   }
 }

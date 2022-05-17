@@ -21,11 +21,12 @@ import client from './services/apollo/client';
 // Redux Store
 import store from './services/redux/store';
 
-// Utils
-import reportWebVitals from './utils/reportWebVitals';
-
 // Components
 import App from './App';
+
+// Utils
+import reportWebVitals from './utils/reportWebVitals';
+import swRegister from './utils/SWRegister';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -45,3 +46,5 @@ if (process.env.NODE_ENV === 'development') {
 // eslint-disable-next-line no-console
   reportWebVitals(console.log);
 }
+
+swRegister();

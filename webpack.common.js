@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
@@ -61,13 +62,18 @@ module.exports = {
       ios: true,
       icons: [
         {
-          src: path.resolve('src', 'public', 'images', 'logo.png'),
+          src: path.resolve(__dirname, 'src/public/images/logo.png'),
           sizes: [192, 256, 384, 512],
           ios: true,
           destination: 'images',
           purpose: 'any maskable',
         },
       ],
+    }),
+    new InjectManifest({
+      swSrc: path.resolve(__dirname, './src/scripts/service-worker.js'),
+      maximumFileSizeToCacheInBytes: 1000000 * 6, // 6 mb
+      swDest: 'service-worker.js',
     }),
     new Dotenv(),
   ],
