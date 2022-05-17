@@ -1,9 +1,12 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const { InjectManifest } = require('workbox-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const common = require('./webpack.common');
 
 module.exports = merge(common, {
@@ -105,6 +108,12 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       filename: 'styles/[name].css',
     }),
+    new InjectManifest({
+      swSrc: path.resolve(__dirname, './src/scripts/service-worker.js'),
+      maximumFileSizeToCacheInBytes: 1000000 * 6, // 6 mb
+      swDest: 'service-worker.js',
+    }),
     new CleanWebpackPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
 });

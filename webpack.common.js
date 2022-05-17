@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { InjectManifest } = require('workbox-webpack-plugin');
+const ProgressPlugin = require('progress-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
@@ -70,11 +70,7 @@ module.exports = {
         },
       ],
     }),
-    new InjectManifest({
-      swSrc: path.resolve(__dirname, './src/scripts/service-worker.js'),
-      maximumFileSizeToCacheInBytes: 1000000 * 6, // 6 mb
-      swDest: 'service-worker.js',
-    }),
     new Dotenv(),
+    new ProgressPlugin(true),
   ],
 };
