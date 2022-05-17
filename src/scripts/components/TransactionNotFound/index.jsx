@@ -9,9 +9,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
-// Assets
-import notFoundImg from '../../images/404.png';
-
 const TransactionNotFound = () => (
   <Box
     sx={{
@@ -31,7 +28,7 @@ const TransactionNotFound = () => (
     <Box sx={{ width: '100%' }}>
       <Card>
         <CardContent>
-          <img src={notFoundImg} alt="404 not Found Illustration" />
+          <img data-src="/images/logo.png" className="lazyload" alt="404 not Found Illustration" />
         </CardContent>
         <CardContent sx={{ pt: '.5rem', pb: 0 }}>
           <Typography variant="h4" element="h2" textAlign="center">

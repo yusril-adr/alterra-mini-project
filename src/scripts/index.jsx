@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
+import 'regenerator-runtime';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';

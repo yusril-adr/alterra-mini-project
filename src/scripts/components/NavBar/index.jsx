@@ -27,7 +27,6 @@ import { blue, grey } from '@mui/material/colors';
 
 // Assets
 import styles from './style.module.css';
-import logo from '../../images/logo.png';
 
 // Global Components
 import NavLink from '../NavLink';
@@ -134,7 +133,7 @@ const NavBar = ({ title }) => {
               paddingY: '2rem',
             }}
           >
-            <img data-src={logo} alt="logo" className={`lazyload ${styles.logo_image}`} />
+            <img data-src="/images/logo.png" alt="logo" className={`lazyload ${styles.logo_image}`} />
           </Box>
 
           <List>

@@ -2,8 +2,7 @@
     "env": {
         "browser": true,
         "es2021": true,
-        "node": true,
-        "jest/globals": true
+        "node": true
     },
     "extends": [
         "plugin:react/recommended",
@@ -17,10 +16,10 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
-        "jest"
+        "react"
     ],
     "rules": {
+        "import/no-extraneous-dependencies": "off",
         "linebreak-style": "off",
         "no-underscore-dangle": "off",
         "react/forbid-prop-types": "off",
