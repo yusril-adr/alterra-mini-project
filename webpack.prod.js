@@ -1,6 +1,7 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
+const ImageminWebpackPlugin = require('imagemin-webpack-plugin').default;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const autoprefixer = require('autoprefixer');
@@ -105,6 +106,11 @@ module.exports = merge(common, {
     ],
   },
   plugins: [
+    new ImageminWebpackPlugin({
+      pngquant: {
+        quality: 50,
+      },
+    }),
     new MiniCssExtractPlugin({
       filename: 'styles/[name].css',
     }),
