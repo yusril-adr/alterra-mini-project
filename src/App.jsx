@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 // Global Component
 import Layout from './components/Layout';
+import ProtectedRoutes from './components/ProtectedRoutes';
 
 // Pages
 import SignIn from './pages/SignIn';
@@ -19,25 +20,22 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={user ? <List /> : <Navigate to="/sign-in" replace />} />
 
-        {user && (
-          <>
-            <Route path="transaction">
-              <Route index element={<Navigate to="/" replace />} />
-              <Route path=":transactionId" element={<TransactionDetail />} />
-            </Route>
+        <Route element={<ProtectedRoutes redirectPath="/sign-in" allowedBy={user} />}>
+          <Route index element={<List />} />
 
-            <Route path="sign-out" element={<SignOut />} />
-          </>
-        )}
+          <Route path="transaction">
+            <Route index element={<Navigate to="/" replace />} />
+            <Route path=":transactionId" element={<TransactionDetail />} />
+          </Route>
 
-        {!user && (
-          <>
-            <Route path="sign-in" element={<SignIn />} />
-            <Route path="sign-up" element={<SignUp />} />
-          </>
-        )}
+          <Route path="sign-out" element={<SignOut />} />
+        </Route>
+
+        <Route element={<ProtectedRoutes redirectPath="/" allowedBy={!user} />}>
+          <Route path="sign-in" element={<SignIn />} />
+          <Route path="sign-up" element={<SignUp />} />
+        </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
