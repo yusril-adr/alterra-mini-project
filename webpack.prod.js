@@ -115,6 +115,7 @@ module.exports = merge(common, {
       filename: 'styles/[name].css',
     }),
     new InjectManifest({
+      exclude: [/_redirects/],
       swSrc: path.resolve(__dirname, './src/scripts/service-worker.js'),
       maximumFileSizeToCacheInBytes: 1000000 * 6, // 6 mb
       swDest: 'service-worker.js',
