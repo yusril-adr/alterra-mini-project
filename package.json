@@ -1,8 +1,14 @@
 {
   "name": "wager-lite",
   "version": "1.0.0",
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "description": "Manage your cashflow",
   "main": "webpack.prod.js",
+  "keywords": [
+    "money",
+    "webpack",
+    "spa",
+    "react"
+  ],
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "start": "webpack serve --config webpack.dev.js"

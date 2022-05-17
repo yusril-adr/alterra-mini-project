@@ -51,7 +51,7 @@ module.exports = {
       filename: 'manifest.json',
       name: 'Wallet Manager Lite',
       short_name: 'Wager-lite',
-      description: '',
+      description: 'An app that will help you to organize your personal cashflow.',
       start_url: '/',
       display: 'standalone',
       theme_color: '#1565c0',
