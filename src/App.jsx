@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
 import {
   Routes, Route, Navigate,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Global Component
 import Layout from './components/Layout';
@@ -14,8 +15,18 @@ import SignOut from './pages/SignOut';
 import List from './pages/List';
 import TransactionDetail from './pages/TransactionDetail';
 
+// Redux Action
+import { signInWithId } from './services/redux/user';
+
 const App = () => {
   const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(signInWithId(user.id));
+    }
+  }, []);
 
   return (
     <Routes>

@@ -35,13 +35,13 @@ const UserHelper = {
     }
   },
 
-  _initToken({ id, username }) {
-    const token = TokenManager.createToken({ id, username });
+  _initToken({ password, ...userData }) {
+    const token = TokenManager.createToken(userData);
 
     localStorageService.setItem(CONFIG.TOKEN_KEY, token);
   },
 
-  getSignInUser() {
+  getUserDataFromToken() {
     const token = localStorageService.getItem(CONFIG.TOKEN_KEY);
 
     if (!token) {

@@ -10,6 +10,15 @@ const Query = {
       }
     }
   `,
+
+  GetUserById: gql`
+    query getUserById($id: uuid = "") {
+      result: wager_lite_users_by_pk(id: $id) {
+        id
+        username
+      }
+    }
+  `,
 };
 
 export default Query;
