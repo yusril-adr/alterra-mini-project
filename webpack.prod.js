@@ -15,8 +15,8 @@ module.exports = merge(common, {
   optimization: {
     splitChunks: {
       chunks: 'all',
-      minSize: 50000,
-      maxSize: 100000,
+      minSize: 20000,
+      maxSize: 90000,
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: 30,
