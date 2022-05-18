@@ -24,7 +24,6 @@ const ErrorHandler = {
     let message = CONFIG.DEFAULT_ERROR_MESSAGE;
     if (error instanceof ClientError) {
       message = error.message;
-      return;
     }
 
     // eslint-disable-next-line no-console

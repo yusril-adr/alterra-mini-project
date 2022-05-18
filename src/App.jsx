@@ -3,6 +3,7 @@ import {
   Routes, Route, Navigate,
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLazyQuery } from '@apollo/client';
 
 // Global Component
 import Layout from './components/Layout';
@@ -15,16 +16,42 @@ import SignOut from './pages/SignOut';
 import List from './pages/List';
 import TransactionDetail from './pages/TransactionDetail';
 
+// Apollo Queries
+import UserQuery from './services/apollo/users/Query';
+
+// Exceptions
+import AuthenticationError from './errors/AuthenticationError';
+
 // Redux Action
-import { signInWithId } from './services/redux/user';
+import { tokenSignIn } from './services/redux/user';
+
+// Utils
+import ErrorHandler from './utils/ErrorHandler';
 
 const App = () => {
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
+  const [signInUserById] = useLazyQuery(UserQuery.GetUserById, {
+    onCompleted: ({ result }) => {
+      try {
+        if (!result) throw new AuthenticationError('Current User didn\'t exist anymore.');
+
+        dispatch(tokenSignIn(result));
+      } catch (error) {
+        ErrorHandler.swal(error);
+        dispatch(tokenSignIn(null));
+      }
+    },
+    onError: (error) => {
+      ErrorHandler.swal(error);
+      dispatch(tokenSignIn(null));
+    },
+  });
+
   useEffect(() => {
     if (user) {
-      dispatch(signInWithId(user.id));
+      signInUserById({ variables: { id: user.id } });
     }
   }, []);
 
