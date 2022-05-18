@@ -8,6 +8,9 @@ const CONFIG = {
   DEFAULT_ERROR_MESSAGE: 'Something went wrong.',
   USER_PASSWORD_MIN_LENGTH: 8,
   DEFAULT_TOKEN_EXPIRED: 1000 * 60 * 60 * 24 * 7, // 7 Days,
+  CACHE_NAME: {
+    IMAGES: 'wager-lite-images',
+  },
 };
 
 export default CONFIG;
