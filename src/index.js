@@ -26,6 +26,7 @@ import store from './services/redux/store';
 
 // Utils
 import reportWebVitals from './utils/reportWebVitals';
+import { register as SWRegister, unregister as SWUnregister } from './utils/SWRegister';
 
 // Components
 import App from './App';
@@ -47,4 +48,10 @@ root.render(
 if (process.env.NODE_ENV === 'development') {
 // eslint-disable-next-line no-console
   reportWebVitals(console.log);
+  // If you want your app to work offline and load faster, you can change
+  // unregister() to register() below. Note this comes with some pitfalls.
+  // Learn more about service workers: https://cra.link/PWA
+  SWUnregister();
+} else {
+  SWRegister();
 }
